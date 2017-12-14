@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		8933C7851EB5B820000D00A4 /* SkeletonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8933C7841EB5B820000D00A4 /* SkeletonView.swift */; };
+		B48DD8AA1FE278F400B861D7 /* SkeletonView.h in Headers */ = {isa = PBXBuildFile; fileRef = B48DD8A81FE2757B00B861D7 /* SkeletonView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F51DE1091FBF70A70037919A /* SkeletonAnimationBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51DE1081FBF70A70037919A /* SkeletonAnimationBuilder.swift */; };
 		F5307E2C1FAF6BC900EE67C5 /* SkeletonGradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5307E2B1FAF6BC900EE67C5 /* SkeletonGradient.swift */; };
 		F5307E2E1FB0E5E400EE67C5 /* UIView+Frame.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5307E2D1FB0E5E400EE67C5 /* UIView+Frame.swift */; };
@@ -62,6 +63,8 @@
 		52D6D97C1BEFF229002C0205 /* SkeletonView.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SkeletonView.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8933C7841EB5B820000D00A4 /* SkeletonView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SkeletonView.swift; sourceTree = "<group>"; };
 		AD2FAA261CD0B6D800659CF4 /* SkeletonView.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = SkeletonView.plist; sourceTree = "<group>"; };
+		B48DD8A81FE2757B00B861D7 /* SkeletonView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SkeletonView.h; sourceTree = "<group>"; };
+		B48DD8A91FE277E700B861D7 /* Framework.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = Framework.modulemap; sourceTree = "<group>"; };
 		F51DE1081FBF70A70037919A /* SkeletonAnimationBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkeletonAnimationBuilder.swift; sourceTree = "<group>"; };
 		F5307E2B1FAF6BC900EE67C5 /* SkeletonGradient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkeletonGradient.swift; sourceTree = "<group>"; };
 		F5307E2D1FB0E5E400EE67C5 /* UIView+Frame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Frame.swift"; sourceTree = "<group>"; };
@@ -147,6 +150,7 @@
 				F5307E2B1FAF6BC900EE67C5 /* SkeletonGradient.swift */,
 				F5F899E81FAB9D2B002E8FDA /* SkeletonLayer.swift */,
 				8933C7841EB5B820000D00A4 /* SkeletonView.swift */,
+				B48DD8A81FE2757B00B861D7 /* SkeletonView.h */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -155,6 +159,7 @@
 			isa = PBXGroup;
 			children = (
 				AD2FAA261CD0B6D800659CF4 /* SkeletonView.plist */,
+				B48DD8A91FE277E700B861D7 /* Framework.modulemap */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -227,6 +232,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B48DD8AA1FE278F400B861D7 /* SkeletonView.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
