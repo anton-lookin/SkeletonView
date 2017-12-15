@@ -16,40 +16,40 @@ class SkeletonLayerFactory {
     
     func makeMultilineLayer(withType type: SkeletonType, for index: Int, width: CGFloat) -> CALayer {
         let spaceRequiredForEachLine = SkeletonDefaultConfig.multilineHeight + SkeletonDefaultConfig.multilineSpacing
-        let layer = type.layer
+        let layer = self.layer(forType: type)
         layer.anchorPoint = .zero
         layer.name = CALayer.skeletonSubLayersName
         layer.frame = CGRect(x: 0.0, y: CGFloat(index) * spaceRequiredForEachLine, width: width, height: SkeletonDefaultConfig.multilineHeight)
         return layer
     }
+	
+	func layer(forType type: SkeletonType) -> CALayer {
+		switch type {
+		case .solid:
+			return CALayer()
+		case .gradient:
+			return CAGradientLayer()
+		}
+	}
+	
+	func layerAnimation(forType type: SkeletonType) -> SkeletonLayerAnimation {
+		switch type {
+		case .solid:
+			return { $0.pulse }
+		case .gradient:
+			return { $0.sliding }
+		}
+	}
 }
 
 public typealias SkeletonLayerAnimation = (CALayer) -> CAAnimation
 
-public enum SkeletonType {
+@objc public enum SkeletonType : Int {
     case solid
     case gradient
-    
-    var layer: CALayer {
-        switch self {
-        case .solid:
-            return CALayer()
-        case .gradient:
-            return CAGradientLayer()
-        }
-    }
-    
-    var layerAnimation: SkeletonLayerAnimation {
-        switch self {
-        case .solid:
-            return { $0.pulse }
-        case .gradient:
-            return { $0.sliding }
-        }
-    }
 }
 
-struct SkeletonLayer {
+class SkeletonLayer : NSObject {
     
     private var maskLayer: CALayer
     private weak var holder: UIView?
@@ -64,27 +64,23 @@ struct SkeletonLayer {
     
     init(withType type: SkeletonType, usingColors colors: [UIColor], andSkeletonHolder holder: UIView) {
         self.holder = holder
-        self.maskLayer = type.layer
+        self.maskLayer = SkeletonLayerFactory().layer(forType: type)
         self.maskLayer.anchorPoint = .zero
         self.maskLayer.bounds = holder.maxBoundsEstimated
-        addMultilinesIfNeeded()
         self.maskLayer.tint(withColors: colors)
+		guard let multiLineView = holder as? ContainsMultilineText else { return }
+		maskLayer.addMultilinesLayers(lines: multiLineView.numLines, type: type, lastLineFillPercent: multiLineView.lastLineFillingPercent)
     }
     
     func removeLayer() {
         maskLayer.removeFromSuperlayer()
-    }
-    
-    func addMultilinesIfNeeded() {
-        guard let multiLineView = holder as? ContainsMultilineText else { return }
-        maskLayer.addMultilinesLayers(lines: multiLineView.numLines, type: type, lastLineFillPercent: multiLineView.lastLineFillingPercent)
     }
 }
 
 extension SkeletonLayer {
 
     func start(_ anim: SkeletonLayerAnimation? = nil) {
-        let animation = anim ?? type.layerAnimation
+        let animation = anim ?? SkeletonLayerFactory().layerAnimation(forType: type)
         contentLayer.playAnimation(animation, key: "skeletonAnimation")
     }
     
