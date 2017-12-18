@@ -28,14 +28,12 @@ public class SkeletonAnimationBuilder {
         return { layer in
             
             let startPointAnim = CABasicAnimation(keyPath: #keyPath(CAGradientLayer.startPoint))
-			let startPoint = self.startPoint(forGradientDirection: direction)
-            startPointAnim.fromValue = NSValue(cgPoint: startPoint.from)
-            startPointAnim.toValue = NSValue(cgPoint: startPoint.to)
+            startPointAnim.fromValue = NSValue(cgPoint: self.startPoint(forGradientDirection: direction).from)
+            startPointAnim.toValue = NSValue(cgPoint: self.startPoint(forGradientDirection: direction).to)
             
             let endPointAnim = CABasicAnimation(keyPath: #keyPath(CAGradientLayer.endPoint))
-			let endPoint = self.endPoint(forGradientDirection: direction)
-            endPointAnim.fromValue = NSValue(cgPoint: endPoint.from)
-            endPointAnim.toValue = NSValue(cgPoint: endPoint.to)
+            endPointAnim.fromValue = NSValue(cgPoint: self.endPoint(forGradientDirection: direction).from)
+            endPointAnim.toValue = NSValue(cgPoint: self.endPoint(forGradientDirection: direction).to)
             
             let animGroup = CAAnimationGroup()
             animGroup.animations = [startPointAnim, endPointAnim]
@@ -46,10 +44,6 @@ public class SkeletonAnimationBuilder {
             return animGroup
         }
     }
-	
-	public func slidingAnimation(withDirection direction: GradientDirection, duration: CFTimeInterval = 1.5) -> SkeletonLayerAnimation {
-		return self.makeSlidingAnimation(withDirection: direction, duration: duration)
-	}
 	
 	func startPoint(forGradientDirection direction: GradientDirection) -> GradientAnimationPoint {
 		switch direction {
