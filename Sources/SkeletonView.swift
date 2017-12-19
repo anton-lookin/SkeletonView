@@ -9,6 +9,11 @@
 import UIKit
 
 @objc public extension UIView {
+	
+	@objc func showAnimatedGradientSkeleton() {
+		let gradient = SkeletonDefaultConfig.gradient
+		showSkeleton(withType: .gradient, usingColors: gradient.colors, animated: true, animation: nil)
+	}
     
     @objc func showSkeleton(usingColor color: UIColor = SkeletonDefaultConfig.tintColor) {
         showSkeleton(withType: .solid, usingColors: [color])
