@@ -8,7 +8,7 @@
 
 import UIKit
 
-public enum SkeletonDefaultConfig {
+@objc public class SkeletonDefaultConfig : NSObject {
     
     public static let tintColor = UIColor.clouds
     

@@ -16,7 +16,7 @@ class SkeletonLayerFactory {
     
     func makeMultilineLayer(withType type: SkeletonType, for index: Int, width: CGFloat) -> CALayer {
         let spaceRequiredForEachLine = SkeletonDefaultConfig.multilineHeight + SkeletonDefaultConfig.multilineSpacing
-        let layer = type.layer
+		let layer = type == .gradient ? CAGradientLayer() : CALayer()
         layer.anchorPoint = .zero
         layer.name = CALayer.skeletonSubLayersName
         layer.frame = CGRect(x: 0.0, y: CGFloat(index) * spaceRequiredForEachLine, width: width, height: SkeletonDefaultConfig.multilineHeight)
@@ -26,27 +26,9 @@ class SkeletonLayerFactory {
 
 public typealias SkeletonLayerAnimation = (CALayer) -> CAAnimation
 
-public enum SkeletonType {
+@objc public enum SkeletonType : Int {
     case solid
     case gradient
-    
-    var layer: CALayer {
-        switch self {
-        case .solid:
-            return CALayer()
-        case .gradient:
-            return CAGradientLayer()
-        }
-    }
-    
-    var layerAnimation: SkeletonLayerAnimation {
-        switch self {
-        case .solid:
-            return { $0.pulse }
-        case .gradient:
-            return { $0.sliding }
-        }
-    }
 }
 
 struct SkeletonLayer {
@@ -64,7 +46,7 @@ struct SkeletonLayer {
     
     init(withType type: SkeletonType, usingColors colors: [UIColor], andSkeletonHolder holder: UIView) {
         self.holder = holder
-        self.maskLayer = type.layer
+        self.maskLayer = type == .gradient ? CAGradientLayer() : CALayer()
         self.maskLayer.anchorPoint = .zero
         self.maskLayer.bounds = holder.maxBoundsEstimated
         addMultilinesIfNeeded()
@@ -84,7 +66,7 @@ struct SkeletonLayer {
 extension SkeletonLayer {
 
     func start(_ anim: SkeletonLayerAnimation? = nil) {
-        let animation = anim ?? type.layerAnimation
+		let animation = anim ?? (type == .solid ? {$0.pulse} : {$0.sliding})
         contentLayer.playAnimation(animation, key: "skeletonAnimation")
     }
     

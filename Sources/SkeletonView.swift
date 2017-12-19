@@ -8,25 +8,25 @@
 
 import UIKit
 
-public extension UIView {
+@objc public extension UIView {
     
-    func showSkeleton(usingColor color: UIColor = SkeletonDefaultConfig.tintColor) {
+    @objc func showSkeleton(usingColor color: UIColor = SkeletonDefaultConfig.tintColor) {
         showSkeleton(withType: .solid, usingColors: [color])
     }
     
-    func showGradientSkeleton(usingGradient gradient: SkeletonGradient = SkeletonDefaultConfig.gradient) {
+    @objc func showGradientSkeleton(usingGradient gradient: SkeletonGradient) {
         showSkeleton(withType: .gradient, usingColors: gradient.colors)
     }
     
-    func showAnimatedSkeleton(usingColor color: UIColor = SkeletonDefaultConfig.tintColor, animation: SkeletonLayerAnimation? = nil) {
+    @objc func showAnimatedSkeleton(usingColor color: UIColor = SkeletonDefaultConfig.tintColor, animation: SkeletonLayerAnimation? = nil) {
         showSkeleton(withType: .solid, usingColors: [color], animated: true, animation: animation)
     }
     
-    func showAnimatedGradientSkeleton(usingGradient gradient: SkeletonGradient = SkeletonDefaultConfig.gradient, animation: SkeletonLayerAnimation? = nil) {
+    @objc func showAnimatedGradientSkeleton(usingGradient gradient: SkeletonGradient, animation: SkeletonLayerAnimation? = nil) {
         showSkeleton(withType: .gradient, usingColors: gradient.colors, animated: true, animation: animation)
     }
     
-    func hideSkeleton(reloadDataAfter reload: Bool = true) {
+    @objc func hideSkeleton(reloadDataAfter reload: Bool = true) {
         removeDummyDataSourceIfNeeded(reloadAfter: reload)
         isUserInteractionEnabled = true
         recursiveSearch(inArray: subviewsSkeletonables,
@@ -36,14 +36,14 @@ public extension UIView {
                         })
     }
     
-    func startSkeletonAnimation(_ anim: SkeletonLayerAnimation? = nil) {
+    @objc func startSkeletonAnimation(_ anim: SkeletonLayerAnimation? = nil) {
         recursiveSearch(inArray: subviewsSkeletonables,
                         leafBlock:  startSkeletonLayerAnimationBlock(anim)) {
                             $0.startSkeletonAnimation(anim)
                         }
     }
 
-    func stopSkeletonAnimation() {
+    @objc func stopSkeletonAnimation() {
         recursiveSearch(inArray: subviewsSkeletonables,
                         leafBlock: stopSkeletonLayerAnimationBlock) {
                             $0.stopSkeletonAnimation()
@@ -51,9 +51,9 @@ public extension UIView {
     }
 }
 
-extension UIView {
+@objc extension UIView {
     
-    func showSkeleton(withType type: SkeletonType = .solid, usingColors colors: [UIColor], animated: Bool = false, animation: SkeletonLayerAnimation? = nil) {
+    @objc func showSkeleton(withType type: SkeletonType = .solid, usingColors colors: [UIColor], animated: Bool = false, animation: SkeletonLayerAnimation? = nil) {
         addDummyDataSourceIfNeeded()
         recursiveSearch(inArray: subviewsSkeletonables,
                         leafBlock: {
@@ -81,40 +81,40 @@ extension UIView {
     }
 }
 
-extension UIView {
+@objc extension UIView {
     @objc var subviewsSkeletonables: [UIView] {
         return subviews.filter { $0.isSkeletonable }
     }
 }
 
-extension UITableView {
-    override var subviewsSkeletonables: [UIView] {
+@objc extension UITableView {
+    @objc override var subviewsSkeletonables: [UIView] {
         return visibleCells.filter { $0.isSkeletonable }
     }
 }
 
-extension UITableViewCell {
-    override var subviewsSkeletonables: [UIView] {
+@objc extension UITableViewCell {
+    @objc override var subviewsSkeletonables: [UIView] {
         return contentView.subviews.filter { $0.isSkeletonable }
     }
 }
 
-extension UIStackView {
-    override var subviewsSkeletonables: [UIView] {
+@objc extension UIStackView {
+    @objc override var subviewsSkeletonables: [UIView] {
         return arrangedSubviews.filter { $0.isSkeletonable }
     }
 }
 
-extension UIView {
+@objc extension UIView {
     
-    func addSkeletonLayer(withType type: SkeletonType, usingColors colors: [UIColor], gradientDirection direction: GradientDirection? = nil, animated: Bool, animation: SkeletonLayerAnimation? = nil) {
+    @objc func addSkeletonLayer(withType type: SkeletonType, usingColors colors: [UIColor], animated: Bool, animation: SkeletonLayerAnimation? = nil) {
         self.skeletonLayer = SkeletonLayerFactory().makeLayer(withType: type, usingColors: colors, andHolder: self)
         layer.insertSublayer(skeletonLayer!.contentLayer, at: UInt32.max)
         if animated { skeletonLayer!.start(animation) }
         status = .on
     }
     
-    func removeSkeletonLayer() {
+    @objc func removeSkeletonLayer() {
         guard isSkeletonActive,
             let layer = skeletonLayer else { return }
         layer.stopAnimation()
