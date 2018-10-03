@@ -8,7 +8,7 @@
 
 import UIKit
 
-@objc public class SkeletonGradient : NSObject {
+public struct SkeletonGradient {
     
     private var gradientColors: [UIColor]
     
