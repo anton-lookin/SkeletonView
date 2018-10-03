@@ -9,11 +9,14 @@
 import UIKit
 import SkeletonView
 
-let colors = [(UIColor.turquoise,"turquoise"), (UIColor.emerald,"emerald"), (UIColor.peterRiver,"peterRiver"), (UIColor.amethyst,"amethyst"),(UIColor.wetAsphalt,"wetAsphalt"), (UIColor.nephritis,"nephritis"), (UIColor.belizeHole,"belizeHole"), (UIColor.wisteria,"wisteria"), (UIColor.midnightBlue,"midnightBlue"), (UIColor.sunFlower,"sunFlower"), (UIColor.carrot,"carrot"), (UIColor.alizarin,"alizarin"),(UIColor.clouds,"clouds"), (UIColor.concrete,"concrete"), (UIColor.flatOrange,"flatOrange"), (UIColor.pumpkin,"pumpkin"), (UIColor.pomegranate,"pomegranate"), (UIColor.silver,"silver"), (UIColor.asbestos,"asbestos")]
-
 class ViewController: UIViewController {
     
-    @IBOutlet weak var tableview: UITableView!
+    @IBOutlet weak var tableview: UITableView! {
+        didSet {
+            tableview.rowHeight = UITableViewAutomaticDimension
+            tableview.estimatedRowHeight = 120.0
+        }
+    }
     
     @IBOutlet weak var avatarImage: UIImageView! {
         didSet {
@@ -26,7 +29,7 @@ class ViewController: UIViewController {
         didSet {
             colorSelectedView.layer.cornerRadius = 5
             colorSelectedView.layer.masksToBounds = true
-            colorSelectedView.backgroundColor = SkeletonDefaultConfig.tintColor
+            colorSelectedView.backgroundColor = SkeletonAppearance.default.tintColor
         }
     }
 
@@ -35,6 +38,11 @@ class ViewController: UIViewController {
     
     var type: SkeletonType {
         return skeletonTypeSelector.selectedSegmentIndex == 0 ? .solid : .gradient
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        tableview.isSkeletonable = true
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -128,7 +136,7 @@ extension ViewController: SkeletonTableViewDataSource {
         return 9
     }
     
-    func collectionSkeletonView(_ skeletonView: UITableView, cellIdenfierForRowAt indexPath: IndexPath) -> ReusableCellIdentifier {
+    func collectionSkeletonView(_ skeletonView: UITableView, cellIdentifierForRowAt indexPath: IndexPath) -> ReusableCellIdentifier {
         return "CellIdentifier"
     }
     
